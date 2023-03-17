@@ -4,6 +4,7 @@ This repository contains the initial stage of a student project to build a clone
 
 This fork has been made by Elias Igwegbu, for a team project with Josef Jatto (ALX Cohort 9).
 ---
+Thank you, I look forward to working with you in this.
 
 <center><h3>Repository Contents by Project Task</h3> </center>
 
