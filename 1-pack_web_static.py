@@ -1,29 +1,33 @@
-#!/usr/bin/python3
-"""A module for Fabric script that generates a .tgz archive."""
-import os
-from datetime import datetime
-from fabric.api import local, runs_once
+# Import Fabric's API module
+from fabric.api import *
 
 
-@runs_once
-def do_pack():
-    """Archives the static files."""
-    if not os.path.isdir("versions"):
-        os.mkdir("versions")
-    d_time = datetime.now()
-    output = "versions/web_static_{}{}{}{}{}{}.tgz".format(
-        d_time.year,
-        d_time.month,
-        d_time.day,
-        d_time.hour,
-        d_time.minute,
-        d_time.second
-    )
-    try:
-        print("Packing web_static to {}".format(output))
-        local("tar -cvzf {} web_static".format(output))
-        size = os.stat(output).st_size
-        print("web_static packed: {} -> {} Bytes".format(output, size))
-    except Exception:
-        output = None
-    return output
+env.hosts = [
+    '35.175.135.222'
+  # 'ip.add.rr.ess
+  # 'server2.domain.tld',
+]
+# Set the username
+env.user   = "ubuntu"
+
+# Set the password [NOT RECOMMENDED]
+# env.password = "passwd"
+
+def update():
+    """
+        Update the default OS installation's
+        basic default tools.
+                                            """
+    sudo("apt    update")
+
+def install_nginx():
+    """ Download and install memcached. """
+    sudo("apt install -y nginx")
+
+def update_install():
+
+    # Update
+    update()
+
+    # Install
+    install_nginx()
