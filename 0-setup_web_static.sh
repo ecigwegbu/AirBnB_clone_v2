@@ -2,6 +2,7 @@
 # install nginx on a new ubuntu server
 
 sudo apt update
+sudo apt upgrade -y
 sudo apt install -y nginx
 sudo service nginx start
 sudo apt install -y ufw
@@ -23,11 +24,11 @@ sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
 sudo chown -R ubuntu:ubuntu /data/
 
 # add lines as required
-line1="\tserver_name _;"
+line1="\tserver_name localhost;"
 line2="        location \/hbnb_static\/ \{"
 line3="                alias \/data\/web_static\/current\/;"
 line4="        \}"
-sudo sed -i --follow-symlinks "s/^\s*server_name _;/$line1\n$line2\n$line3\n$line4/" \
+sudo sed -i --follow-symlinks "s/^\s*server_name localhost;/$line1\n$line2\n$line3\n$line4/" \
         /etc/nginx/sites-enabled/default
 
 # reload nginx
