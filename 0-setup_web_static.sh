@@ -1,36 +1,34 @@
 #!/usr/bin/env bash
 # install nginx on a new ubuntu server
 
-sudo su
-apt update
-apt install -y nginx
-service nginx start
-apt install -y ufw
-ufw default deny incoming
-ufw default allow outgoing
-ufw allow 22/tcp
-ufw allow 80/tcp
-ufw --force enable
-mkdir -p /data/web_static/releases/test/
-mkdir -p /data/web_static/shared/
+sudo apt update
+sudo apt install -y nginx
+sudo service nginx start
+sudo apt install -y ufw
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow 22/tcp
+sudo ufw allow 80/tcp
+sudo ufw --force enable
+sudo mkdir -p /data/web_static/releases/test/
+sudo mkdir -p /data/web_static/shared/
 echo "<html>
   <head>
   </head>
   <body>
     Holberton School
   </body>
-</html>" > /data/web_static/releases/test/index.html
-ln -sf /data/web_static/releases/test/ /data/web_static/current
-chown -R ubuntu:ubuntu /data/
+</html>" | sudo tee -a /data/web_static/releases/test/index.html
+sudo ln -sf /data/web_static/releases/test/ /data/web_static/current
+sudo chown -R ubuntu:ubuntu /data/
 
 # add lines as required
 line1="\tserver_name _;"
 line2="        location \/hbnb_static\/ \{"
 line3="                alias \/data\/web_static\/current\/;"
 line4="        \}"
-sed -i --follow-symlinks "s/^\s*server_name _;/$line1\n$line2\n$line3\n$line4/" \
+sudo sed -i --follow-symlinks "s/^\s*server_name _;/$line1\n$line2\n$line3\n$line4/" \
         /etc/nginx/sites-enabled/default
 
-# reload nginx ?
-service nginx reload
-exit
+# reload nginx
+sudo service nginx reload
