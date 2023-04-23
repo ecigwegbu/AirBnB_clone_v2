@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 # install nginx on a new ubuntu server
 
+sudo su
 apt update
 apt install -y nginx
 service nginx start
@@ -31,4 +32,5 @@ sed -i --follow-symlinks "s/^\s*server_name _;/$line1\n$line2\n$line3\n$line4/" 
         /etc/nginx/sites-enabled/default
 
 # reload nginx ???
-service nginx restart
+service nginx reload
+exit
