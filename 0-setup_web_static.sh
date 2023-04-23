@@ -12,7 +12,6 @@ ufw allow 80/tcp
 ufw --force enable
 mkdir -p /data/web_static/releases/test/
 mkdir -p /data/web_static/shared/
-echo "Hello World!" > /data/web_static/releases/test/index.html
 echo "<html>
   <head>
   </head>
