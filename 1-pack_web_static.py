@@ -1,33 +1,19 @@
-# Import Fabric's API module
+#!/usr/bin/python3
+""" Fabric file to archive a folser"""
 from fabric.api import *
+from datetime import datetime
 
 
-env.hosts = [
-    '35.175.135.222'
-  # 'ip.add.rr.ess
-  # 'server2.domain.tld',
-]
-# Set the username
-env.user   = "ubuntu"
-
-# Set the password [NOT RECOMMENDED]
-# env.password = "passwd"
-
-def update():
+def do_pack():
     """
-        Update the default OS installation's
-        basic default tools.
-                                            """
-    sudo("apt    update")
-
-def install_nginx():
-    """ Download and install memcached. """
-    sudo("apt install -y nginx")
-
-def update_install():
-
-    # Update
-    update()
-
-    # Install
-    install_nginx()
+       generates a web archive
+    """
+    dn = datetime.now()
+    fname = "web_static_{}{:02d}{:02d}{:02d}{:02d}{:02d}.tgz".format(
+        dn.year, dn.month, dn.day, dn.hour, dn.minute, dn.second)
+    local("if [ ! -d versions ]; then sudo mkdir versions; fi")
+    result = local("sudo tar -cvzf versions/{} web_static".format(fname))
+    if not result.failed:
+        return fname
+    else:
+        return None
