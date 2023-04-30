@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """Defines unittests for console.py."""
 import os
-import pep8
+import pycodestyle
 import unittest
 import models
 from unittest.mock import patch
@@ -9,6 +9,7 @@ from io import StringIO
 from console import HBNBCommand
 from models.engine.db_storage import DBStorage
 from models.engine.file_storage import FileStorage
+from io import StringIO
 
 
 class TestHBNBCommand(unittest.TestCase):
@@ -52,9 +53,9 @@ class TestHBNBCommand(unittest.TestCase):
         except IOError:
             pass
 
-    def test_pep8(self):
+    def test_pycodestyle(self):
         """Test Pep8 styling."""
-        style = pep8.StyleGuide(quiet=True)
+        style = pycodestyle.StyleGuide(quiet=True)
         p = style.check_files(["console.py"])
         self.assertEqual(p.total_errors, 0, "fix Pep8")
 
@@ -69,7 +70,7 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertIsNotNone(HBNBCommand.do_destroy.__doc__)
         self.assertIsNotNone(HBNBCommand.do_all.__doc__)
         self.assertIsNotNone(HBNBCommand.do_update.__doc__)
-        self.assertIsNotNone(HBNBCommand.count.__doc__)
+        self.assertIsNotNone(HBNBCommand.do_count.__doc__)
         self.assertIsNotNone(HBNBCommand.strip_clean.__doc__)
         self.assertIsNotNone(HBNBCommand.default.__doc__)
 
@@ -88,6 +89,7 @@ class TestHBNBCommand(unittest.TestCase):
     def test_EOF(self):
         """Test that EOF quits."""
         with patch("sys.stdout", new=StringIO()) as f:
+            self.assertEqual("", f.getvalue())
             self.assertTrue(self.HBNB.onecmd("EOF"))
 
     def test_create_errors(self):

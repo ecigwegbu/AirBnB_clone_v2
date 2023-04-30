@@ -3,4 +3,12 @@
 *pycache*
 */*pycache*
 */*pycache*/*
-
+*.pyc
+*.bak
+fl_train.py
+test.py
+test2.py
+testres
+models/engine/__pycache__
+models/engine/__pycache__/*
+models/engine/__pycache__/file_storage.cpython-310.pyc
