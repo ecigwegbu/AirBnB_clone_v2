@@ -7,7 +7,7 @@ class Place(BaseModel):
     """ A place to stay """
     city_id = ""
     user_id = ""
-    name = ""
+    name = "ANY-PLACE"
     description = ""
     number_rooms = 0
     number_bathrooms = 0
