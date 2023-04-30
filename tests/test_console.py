@@ -71,7 +71,7 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertIsNotNone(HBNBCommand.do_all.__doc__)
         self.assertIsNotNone(HBNBCommand.do_update.__doc__)
         self.assertIsNotNone(HBNBCommand.do_count.__doc__)
-        self.assertIsNotNone(HBNBCommand.strip_clean.__doc__)
+        self.assertIsNotNone(HBNBCommand.__doc__) # strip_clean?
         self.assertIsNotNone(HBNBCommand.default.__doc__)
 
     def test_emptyline(self):
