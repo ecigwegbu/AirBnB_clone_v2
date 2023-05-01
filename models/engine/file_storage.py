@@ -9,7 +9,8 @@ class FileStorage:
     __objects = {}
 
     def all(self, cls=None):
-        """Returns a dictionary of models currently in storage"""
+        """Returns a dictionary of models ot one type of class, if given,
+        or all classes currently in storage"""
         return FileStorage.__objects
 
     def new(self, obj):
@@ -17,6 +18,8 @@ class FileStorage:
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def delete(self, obj=None):
+        """delete obj from __objects if it’s inside
+        - if obj is equal to None, the method should not do anything"""
         if obj is not None:
             __objects.pop(obj.to_dict()['__class__'] + '.' + obj.id)
         pass
