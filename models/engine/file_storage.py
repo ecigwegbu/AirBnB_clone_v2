@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """This module defines a class to manage file storage for hbnb clone"""
 import json
+#  from console.HBNBCommand import classes  # debug
 
 
 class FileStorage:
@@ -11,6 +12,19 @@ class FileStorage:
     def all(self, cls=None):
         """Returns a dictionary of models ot one type of class, if given,
         or all classes currently in storage"""
+
+        all_dict = {}
+
+        if cls:
+            #  if cls not in classes.values():
+            #      print("** class doesn't exist **")
+            #      return
+            #  for key, val in FileStorage.__objects.items():
+            for key, val in self.__objects.items():
+                if key.split('.')[0] == cls.__name__:
+                    all_dict.update({key: val})
+            return all_dict
+
         return FileStorage.__objects
 
     def new(self, obj):
@@ -23,7 +37,7 @@ class FileStorage:
         - if obj is equal to None, the method should not do anything"""
         if obj is not None:
             #  print("Obj: b4 del:", obj)  # debug
-            __objects.pop(obj.to_dict()['__class__'] + '.' + obj.id)
+            self.__objects.pop(obj.to_dict()['__class__'] + '.' + obj.id)
             #  print("Obj: aft4 del:", obj)  # debug
         pass
 
