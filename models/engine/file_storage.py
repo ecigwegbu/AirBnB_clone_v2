@@ -15,13 +15,16 @@ class FileStorage:
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
+        #  print("object?----->???\n", obj)  # debug
         self.all().update({obj.to_dict()['__class__'] + '.' + obj.id: obj})
 
     def delete(self, obj=None):
         """delete obj from __objects if it’s inside
         - if obj is equal to None, the method should not do anything"""
         if obj is not None:
+            #  print("Obj: b4 del:", obj)  # debug
             __objects.pop(obj.to_dict()['__class__'] + '.' + obj.id)
+            #  print("Obj: aft4 del:", obj)  # debug
         pass
 
     def save(self):

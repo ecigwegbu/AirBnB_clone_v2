@@ -149,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
                 kwargs[key] = val
         # print(kwargs)  # debug
         obj = item_class(**kwargs)  # debug
-        print("Obj?????", obj)  # debug
+        # print("Obj?????", obj)   debug
         obj.save()  # debug
         print(obj.id)
 
@@ -214,7 +214,10 @@ class HBNBCommand(cmd.Cmd):
         key = c_name + "." + c_id
 
         try:
+            #  print("Key:", key)  # Debug
+            #  print("Before DEL:", storage.all().get(key))  #debug
             del(storage.all()[key])
+            #  print("After DEL:", storage.all().get(key))  #debug
             storage.save()
         except KeyError:
             print("** no instance found **")
@@ -228,6 +231,7 @@ class HBNBCommand(cmd.Cmd):
         """ Shows all objects, or all objects of a class"""
         print_list = []
 
+        # the Cmd class already strips args of leading/trailing whitespace
         if args:
             args = args.split(' ')[0]  # remove possible trailing args
             if args not in HBNBCommand.classes:
@@ -235,12 +239,13 @@ class HBNBCommand(cmd.Cmd):
                 return
             for k, v in storage._FileStorage__objects.items():
                 if k.split('.')[0] == args:
-                    print_list.append(str(v))
+                    print_list.append(str(v))  # uses the obj.__repr__ method
         else:
             for k, v in storage._FileStorage__objects.items():
                 print_list.append(str(v))
 
         print(print_list)
+        #  print("\n----same all----:?  ", storage.all())  #debug 
 
     def help_all(self):
         """ Help information for the all command """

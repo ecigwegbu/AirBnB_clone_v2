@@ -13,7 +13,7 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
+            #  storage.new(self)  # debug
         else:
             for key, val in kwargs.items():
                 if key != "__class__":
@@ -42,6 +42,9 @@ class BaseModel:
             # del kwargs['__class__']
             self.__dict__.update(kwargs)
 
+        #  print("About to call save in constructor ....")  # debug
+        self.save()
+
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -52,15 +55,18 @@ class BaseModel:
         from models import storage
         self.updated_at = datetime.now()
         #  print("~~~~~~~~~saving..............")  # debug
-        storage.new(self)  # debug
-        storage.save()
+        storage.new(self)  # debug  # register object with storage
+        storage.save()  # serialize ( to_dict())and save all objects in memory
 
     def to_dict(self):
         """Convert instance into dict format"""
         dictionary = {}
+        #  print("DDDDDD__dict__when raw", self.__dict__)  #  debug
         dictionary.update(self.__dict__)
+        #  parse eg 'models.place.Place'  :
         dictionary.update({'__class__':
                           (str(type(self)).split('.')[-1]).split('\'')[0]})
         dictionary['created_at'] = self.created_at.isoformat()
         dictionary['updated_at'] = self.updated_at.isoformat()
+        #  print("AfterTo_Dict:", dictionary)  # debug
         return dictionary
