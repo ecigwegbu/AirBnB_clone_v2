@@ -15,11 +15,31 @@ class BaseModel:
             self.updated_at = datetime.now()
             storage.new(self)
         else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
+            for key, val in kwargs.items():
+                if key != "__class__":
+                    setattr(self, key, val)
+            if 'created_at' in kwargs:
+                try:
+                    kwargs['created_at'] = datetime.strptime(
+                            kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                except Exception:
+                    pass
+            else:
+                self.created_at = datetime.now()
+
+            if 'updated_at' in kwargs:
+                try:
+                    kwargs['updated_at'] = datetime.strptime(
+                            kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                except Exception:  # date error
+                    pass
+            else:
+                self.updated_at = datetime.now()
+
+            if 'id' not in kwargs:
+                self.id = str(uuid.uuid4())
+
+            # del kwargs['__class__']
             self.__dict__.update(kwargs)
 
     def __str__(self):
@@ -31,6 +51,8 @@ class BaseModel:
         """Updates updated_at with current time when instance is changed"""
         from models import storage
         self.updated_at = datetime.now()
+        #  print("~~~~~~~~~saving..............")  # debug
+        storage.new(self)  # debug
         storage.save()
 
     def to_dict(self):

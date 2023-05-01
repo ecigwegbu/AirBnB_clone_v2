@@ -10,6 +10,7 @@ from models.state import State
 from models.city import City
 from models.amenity import Amenity
 from models.review import Review
+import shlex
 
 
 class HBNBCommand(cmd.Cmd):
@@ -126,9 +127,30 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return
         item_class = HBNBCommand.classes[class_name_text]
-        kwargs = {item.split("=")[0]: item.split("=")[1] for item in args_list}
+        # get kwargs
+        kwargs = {}
+        for arg in args_list:
+            if "=" not in arg:
+                continue
+            else:
+                key = arg.split('=', maxsplit=1)[0]
+                val = arg.split('=', maxsplit=1)[1]
+                if val[0] == '"' and val[-1] == '"':
+                    left_trim = shlex.split(val)[0]
+                    val = left_trim.replace('_', ' ')
+                else:
+                    try:
+                        val = int(val)
+                    except ValueError:
+                        try:
+                            val = float(val)
+                        except ValueError:
+                            continue
+                kwargs[key] = val
+        # print(kwargs)  # debug
         obj = item_class(**kwargs)  # debug
-        storage.save()
+        print("Obj?????", obj)  # debug
+        obj.save()  # debug
         print(obj.id)
 
     def help_create(self):
