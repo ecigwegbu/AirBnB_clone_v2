@@ -245,7 +245,7 @@ class HBNBCommand(cmd.Cmd):
                 print_list.append(str(v))
 
         print(print_list)
-        #  print("\n----same all----:?  ", storage.all())  #debug 
+        #  print("\n----same all----:?  ", storage.all())  #debug
 
     def help_all(self):
         """ Help information for the all command """
